@@ -58,6 +58,17 @@ class SimpleServer {
         writer.println("Content-type: text/html");
         writer.println("");
 
+        // Part1: Database object. Read in json from dummy data and make a hash_map <String, String>. Index the data by user.
+
+        // Part2:
+        // Parsing the input. Input ex: /user?/userid=1
+        // output should be like endpoints-users, and args if any. Key-value pairs of string string. Can be an array of them
+        // hash_map<String, String>
+        // output example: /user <userid: 1>
+
+        // Part3:
+        // (Factory) Business logic. Deciding what to respond. Processor class.(Picking between user and post). Lastly, output.
+
         // Body of our response
         writer.println("<h1>Some cool response!</h1>");
 

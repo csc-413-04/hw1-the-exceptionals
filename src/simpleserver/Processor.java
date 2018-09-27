@@ -1,4 +1,4 @@
 package simpleserver;
 
-public class Process {
+public class Processor {
 }

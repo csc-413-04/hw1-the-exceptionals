@@ -6,7 +6,7 @@ public class Posts{
     private String postContent;
 
     //Constructor for the Post objects
-    public Posts(int userID, int postID, String postContent){
+    protected Posts(int userID, int postID, String postContent){
         this.userID = userID;
         this.postID = postID;
         this.postContent = postContent;

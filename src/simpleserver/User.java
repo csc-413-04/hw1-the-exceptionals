@@ -5,7 +5,7 @@ public class User {
     public String username;
 
     //Constructor for creating new user objects to add to the database
-    private User(int userID, String username) {
+    protected User(int userID, String username) {
         this.userID = userID;
         this.username = username;
     }

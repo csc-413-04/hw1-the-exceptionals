@@ -2,8 +2,7 @@ package simpleserver;
 
 import com.google.gson.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Database {
 

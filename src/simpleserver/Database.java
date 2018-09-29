@@ -29,10 +29,19 @@ public class Database {
             //The following two lines retrieve the parts of the JsonObject with the corresponding member names.
             //It may not be fully functional and will await a proper test.
             String UserUsername = retrievedUserObject.get("username").getAsString();
-            String UserID = retrievedUserObject.get("userID").getAsString();
-            int userIDint = Integer.parseInt(UserID);
-            User userObject = new User(userIDint, UserUsername);
+            int UserID = retrievedUserObject.get("userid").getAsInt();
+            User userObject = new User(UserID, UserUsername);
             userHashMap.put(UserUsername, userObject);
+        }
+
+        for(JsonElement retrievedPost : postArray){
+            JsonObject retrievedPostsObject = retrievedPost.getAsJsonObject();
+            int PostID = retrievedPostsObject.get("postid").getAsInt();
+            int UserID = retrievedPostsObject.get("userid").getAsInt();
+            String postContent = retrievedPostsObject.get("data").getAsString();
+            Posts postObject = new Posts(UserID, PostID, postContent);
+            String postIDString = Integer.toString(PostID);
+            postsHashMap.put(postIDString, postObject);
         }
 
 

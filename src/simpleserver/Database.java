@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public class Database {
 
-    private HashMap<String, User> userHashMap = new HashMap<>();
-    private HashMap<String, Posts> postsHashMap = new HashMap<>();
+    public static HashMap<String, User> userHashMap = new HashMap<>();
+    public static HashMap<String, Posts> postsHashMap = new HashMap<>();
 
     public Database() throws FileNotFoundException, UnsupportedEncodingException {
 

@@ -51,7 +51,8 @@ public class Database {
     //They should call upon the earlier user and post HashMaps to search through for the specified ID
 
     public User getUserbyUsername(String username){
-        return null;
+        User user = userHashMap.get(username);
+        return user;
     }
 
     public User getUserbyID(int UserID){
@@ -59,7 +60,8 @@ public class Database {
     }
 
     public Posts getPostbyID(int postID){
-        return null;
+        Post post = postsHashMap.get(postID);
+        return post;
     }
 
     public Posts getPostbyLength(int postID, int maxLength){

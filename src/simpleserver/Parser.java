@@ -73,12 +73,12 @@ public class Parser extends Database {
                     boolToCheckForArgs = true;
                 }
                 parsingInput = value.split("\\?");
-                parsingInputFirst = parsingInput[0]; //parsingInputFirst= userid
+                parsingInputFirst = parsingInput[0];
                 parsingInputSecond = parsingInput[1];
                 if (boolToCheckForArgs == true) {
                     parsingInputTwo = parsingInputSecond.split("\\&");
-                    parsingSecondFirst = parsingInputTwo[0];//parsingSecondFirst= postid
-                    parsingSecondSecond = parsingInputTwo[1];//parsingSecondSecond = maxlength
+                    parsingSecondFirst = parsingInputTwo[0];
+                    parsingSecondSecond = parsingInputTwo[1];
                     hmPostsOutput.put(new String[]{"userid: ", "postid: ", "data: "}, new String[]{parsingInputFirst, parsingSecondFirst, parsingSecondSecond});
                 }
                 else {

@@ -1,4 +1,6 @@
 package simpleserver;
 
-public class Processor {
+public abstract class Processor {
+	String something;
+	public abstract String getString();
 }

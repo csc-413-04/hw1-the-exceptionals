@@ -2,12 +2,12 @@ package simpleserver;
 
 import com.google.gson.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Database {
 
     public static HashMap<String, User> userHashMap = new HashMap<>();
+    public static HashMap<String, User> userIDHashMap = new HashMap<>();
     public static HashMap<String, Posts> postsHashMap = new HashMap<>();
 
     public Database() throws FileNotFoundException, UnsupportedEncodingException {
@@ -19,19 +19,15 @@ public class Database {
         JsonArray userArray = baseObject.getAsJsonArray();
         JsonArray postArray = baseObject.getAsJsonArray();
 
-        //The following loop appears functional, but needs to be tested.
-        //In particular, the UserUsername and UserID strings may not be correct.
-
         //This for loop setup causes the loop to iterate through each object in the array.
         for(JsonElement retrievedUser : userArray){
             JsonObject retrievedUserObject = retrievedUser.getAsJsonObject();
-
-            //The following two lines retrieve the parts of the JsonObject with the corresponding member names.
-            //It may not be fully functional and will await a proper test.
             String UserUsername = retrievedUserObject.get("username").getAsString();
             int UserID = retrievedUserObject.get("userid").getAsInt();
             User userObject = new User(UserID, UserUsername);
+            String UserIDString = Integer.toString(UserID);
             userHashMap.put(UserUsername, userObject);
+            userIDHashMap.put(UserIDString, userObject);
         }
 
         for(JsonElement retrievedPost : postArray){
@@ -43,7 +39,6 @@ public class Database {
             String postIDString = Integer.toString(PostID);
             postsHashMap.put(postIDString, postObject);
         }
-
 
     }
 
@@ -60,7 +55,7 @@ public class Database {
     }
 
     public Posts getPostbyID(int postID){
-        Post post = postsHashMap.get(postID);
+        Posts post = postsHashMap.get(postID);
         return post;
     }
 

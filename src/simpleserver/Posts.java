@@ -1,7 +1,7 @@
 package simpleserver;
 
 public class Posts{
-    public int userID;
+    private int userID;
     private int postID;
     private String postContent;
 

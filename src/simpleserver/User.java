@@ -1,8 +1,8 @@
 package simpleserver;
 
 public class User {
-    public int userID;
-    public String username;
+    private int userID;
+    private String username;
 
     //Constructor for creating new user objects to add to the database
     protected User(int userID, String username) {

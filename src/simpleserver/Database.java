@@ -9,6 +9,7 @@ public class Database {
     public static HashMap<String, User> userHashMap = new HashMap<>();
     public static HashMap<String, User> userIDHashMap = new HashMap<>();
     public static HashMap<String, Posts> postsHashMap = new HashMap<>();
+    public static HashMap<String, Posts> postsLengthHashMap = new HashMap<>();
 
     public Database() throws FileNotFoundException, UnsupportedEncodingException {
 
@@ -35,9 +36,11 @@ public class Database {
             int PostID = retrievedPostsObject.get("postid").getAsInt();
             int UserID = retrievedPostsObject.get("userid").getAsInt();
             String postContent = retrievedPostsObject.get("data").getAsString();
+            int postLength = postContent.length();
             Posts postObject = new Posts(UserID, PostID, postContent);
             String postIDString = Integer.toString(PostID);
             postsHashMap.put(postIDString, postObject);
+            postsHashMap.put(Integer.toString(postLength),postObject);
         }
 
     }
@@ -51,7 +54,8 @@ public class Database {
     }
 
     public User getUserbyID(int UserID){
-        return null;
+        User user = userIDHashMap.get(Integer.toString(UserID));
+        return user;
     }
 
     public Posts getPostbyID(int postID){
@@ -59,8 +63,9 @@ public class Database {
         return post;
     }
 
-    public Posts getPostbyLength(int postID, int maxLength){
-        return null;
+    public Posts getPostbyLength(int length){
+        Posts post = postsLengthHashMap.get(Integer.toString(length));
+        return post;
     }
 
 }

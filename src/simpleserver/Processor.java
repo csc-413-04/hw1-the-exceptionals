@@ -1,6 +1,8 @@
 package simpleserver;
 
 public abstract class Processor {
-	String something;
-	public abstract String getString();
+	String id;
+	String type;
+	//public abstract String process();
+	abstract String process(User user);
 }

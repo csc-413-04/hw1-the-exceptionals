@@ -5,8 +5,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class PostProcessor extends Processor {
-    int postLength;
-    ArrayList<String> postList;
+    private int postLength;
+    private ArrayList<String> postList;
 
 
 	public PostProcessor(String[] args) {

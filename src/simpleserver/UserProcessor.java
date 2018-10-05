@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class UserProcessor extends Processor {
 
-    int entries = 0;
-    ArrayList<String> userList;
+    private int entries = 0;
+    private ArrayList<String> userList;
 
 
 	public UserProcessor(String[] args) {
@@ -20,7 +20,7 @@ public class UserProcessor extends Processor {
             System.out.println("Unsupported encoding exception");
         }
 
-        if(Integer.parseInt(args[0]) == -1) {
+        if(Integer.parseInt(args[0]) == -1 && userList != null) {
             entries = userList.size();
             id = "-1";
         }
@@ -34,7 +34,7 @@ public class UserProcessor extends Processor {
     public String process(ArrayList<String> processUser) {
 	    System.out.println("Username: "+(processUser.get(Integer.parseInt(id)-1)+" user ID: "+(Integer.parseInt(id)-1)));
 
-	    UserResponse userResponse = new UserResponse(processUser, entries, Integer.parseInt(id));
+	    UserResponse userResponse = new UserResponse(processUser, entries, (Integer.parseInt(id)-1));
 	    userResponse.response();
 	    return "Username: "+(processUser.get(Integer.parseInt(id)-1)+" user ID: "+(Integer.parseInt(id)-1));
     }

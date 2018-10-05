@@ -6,7 +6,7 @@ public abstract class Response {
 	String id;
 
     //Constructor for creating new responses
-	public abstract void response(int entries, int id);
+	public abstract void response();
 
 
 }

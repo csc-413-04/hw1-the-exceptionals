@@ -10,7 +10,7 @@ public class UserProcessor extends Processor {
     ArrayList<String> userList;
 
 
-	public UserProcessor(String[] args) { //Arg0: userHashMap, Arg1: id
+	public UserProcessor(String[] args) {
         try {
             Parser parser = new Parser();
             userList = parser.getUser();

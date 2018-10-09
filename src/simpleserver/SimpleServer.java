@@ -1,5 +1,8 @@
 package simpleserver;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,6 +13,7 @@ class SimpleServer {
     ServerSocket ding;
     Socket dong = null;
     String resource = null;
+    String mainline = null;
     try {
       ding = new ServerSocket(1299);
       System.out.println("Opened socket " + 1299);
@@ -29,6 +33,7 @@ class SimpleServer {
 
           // read the first line to get the request method, URI and HTTP version
           String line = in.readLine();
+          mainline = line;
           System.out.println("----------REQUEST START---------");
           System.out.println(line);
           // read only headers
@@ -58,6 +63,9 @@ class SimpleServer {
         writer.println("Content-type: text/html");
         writer.println("");
 
+        String [] requests = mainline.split(" ");
+        Processor processor = ProcessorFactory.makeProcessor(requests, requests[1]);
+        //processor.process();
         // Part1: Database object. Read in json from dummy data and make a hash_map <String, String>. Index the data by user.
 
         // Part2:

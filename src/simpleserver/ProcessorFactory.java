@@ -18,6 +18,11 @@ public class ProcessorFactory {
 		return null;
 	}
 
+	/*
+	static ServerProcessor getProcessor(String endpoint){
+
+	}*/
+
 }
 
 

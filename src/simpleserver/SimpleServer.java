@@ -66,8 +66,10 @@ class SimpleServer {
 				String[] requests = mainline.split(" ");
 				String[] endpoint = requests[1].split("=");
 				Processor processor = ProcessorFactory.makeProcessor(endpoint[0]);
-				String response = processor.process(endpoint);
-				writer.println(response);
+				if (processor != null) {
+					String response = processor.process(endpoint);
+					writer.println(response);
+				}
 				// Part1: Database object. Read in json from dummy data and make a hash_map
 				// <String, String>. Index the data by user.
 

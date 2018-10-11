@@ -6,57 +6,36 @@ import java.util.ArrayList;
 
 public class UserProcessor extends Processor {
 
-    private int entries = 0;
-    private ArrayList<String> userList;
+	private int entries = 0;
+	private User[] userList;
 
-
-	public UserProcessor(String[] args) {
-        try {
-            Parser parser = new Parser();
-            userList = parser.getUser();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found error");
-        } catch (UnsupportedEncodingException ex) {
-            System.out.println("Unsupported encoding exception");
-        }
-
-        if(Integer.parseInt(args[0]) == -1 && userList != null) {
-            entries = userList.size();
-            id = "-1";
-        }
-
-	    if(Integer.parseInt(args[0]) > 0 && userList != null) {
-	        id = args[0];
+	public UserProcessor() {
+		try {
+			db = new Database();
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
-    public String process(ArrayList<String> processUser) {
-	    System.out.println("Username: "+(processUser.get(Integer.parseInt(id)-1)+" user ID: "+(Integer.parseInt(id)-1)));
+	public String process(String[] ep) {
+		UserResponse ur = new UserResponse(db, ep);
+		return ur.response();
+	}
 
-	    UserResponse userResponse = new UserResponse(processUser, entries, (Integer.parseInt(id)-1));
-	    userResponse.response();
-	    return "Username: "+(processUser.get(Integer.parseInt(id)-1)+" user ID: "+(Integer.parseInt(id)-1));
-    }
+	/*
+	 * @Override public String process(User user) {
+	 * 
+	 * if(user == null) { return "Error: Null user"; } this.type = "User"; this.id =
+	 * String.valueOf(user.getUserID());
+	 * System.out.println("User id: "+user.getUserID()+" Username: "+user.
+	 * getUsername()); return
+	 * "User id: "+user.getUserID()+" Username: "+user.getUsername(); }
+	 */
 
-/*	@Override
-	public String process(User user) {
-
-		if(user == null) {
-			return "Error: Null user";
-		}
-		this.type = "User";
-		this.id = String.valueOf(user.getUserID());
-		System.out.println("User id: "+user.getUserID()+" Username: "+user.getUsername());
-		return "User id: "+user.getUserID()+" Username: "+user.getUsername();
-	}*/
-
-
-/*	public String[] processAll(JsonArray userArray) {
-		String[] stringArray = new String[userArray.size()];
-		for(int i = 0; i < userArray.size(); i++) {
-			stringArray[i] = userArray.get(i).getAsString();
-		}
-		return stringArray;
-	}*/
+	/*
+	 * public String[] processAll(JsonArray userArray) { String[] stringArray = new
+	 * String[userArray.size()]; for(int i = 0; i < userArray.size(); i++) {
+	 * stringArray[i] = userArray.get(i).getAsString(); } return stringArray; }
+	 */
 }

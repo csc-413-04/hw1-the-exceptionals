@@ -1,109 +1,135 @@
 package simpleserver;
 
-import com.google.gson.*;
-import java.io.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Collection;
 import java.util.ArrayList;
 
 public class Database {
-	User[] users = null;
-	Posts[] posts = null;
-	protected static HashMap<String, User> userHashMap = new HashMap<>();
-	protected static HashMap<String, Posts> postsHashMap = new HashMap<>();
+    boolean check = false;
+    User[] users = null;
+    Posts[] posts = null;
+    protected static HashMap<String, User> userHashMap = new HashMap<>();
+    protected static HashMap<String, Posts> postsHashMap = new HashMap<>();
+    boolean isLoaded = false;
+    public static Database database = new Database();
 
-	public Database() throws FileNotFoundException, UnsupportedEncodingException {
-		/*
-		 * InputStream dataStream = new FileInputStream("./Data/data.json"); JsonParser
-		 * parser = new JsonParser(); JsonElement parsedObject = parser.parse(new
-		 * InputStreamReader(dataStream, "UTF-8")); JsonObject baseObject =
-		 * parsedObject.getAsJsonObject(); JsonArray userArray =
-		 * baseObject.getAsJsonArray(); JsonArray postArray =
-		 * baseObject.getAsJsonArray();
-		 * 
-		 * //This for loop setup causes the loop to iterate through each object in the
-		 * array. for(JsonElement retrievedUser : userArray){ JsonObject
-		 * retrievedUserObject = retrievedUser.getAsJsonObject(); String UserUsername =
-		 * retrievedUserObject.get("username").getAsString(); int UserID =
-		 * retrievedUserObject.get("userid").getAsInt(); User userObject = new
-		 * User(UserID, UserUsername); String UserIDString = Integer.toString(UserID);
-		 * userHashMap.put(UserIDString, userObject); }
-		 * 
-		 * for(JsonElement retrievedPost : postArray){ JsonObject retrievedPostsObject =
-		 * retrievedPost.getAsJsonObject(); int PostID =
-		 * retrievedPostsObject.get("postid").getAsInt(); int UserID =
-		 * retrievedPostsObject.get("userid").getAsInt(); String postContent =
-		 * retrievedPostsObject.get("data").getAsString(); Posts postObject = new
-		 * Posts(UserID, PostID, postContent); String postIDString =
-		 * Integer.toString(PostID); postsHashMap.put(postIDString, postObject); }
-		 */
-		Gson gson = new Gson();
-		BufferedReader br;
-		br = new BufferedReader(new FileReader("./Data/data.json"));
-		JsonParser jsonParser = new JsonParser();
-		JsonObject obj = jsonParser.parse(br).getAsJsonObject();
+    private Database () {
 
-		users = gson.fromJson(obj.get("users"), User[].class);
-		posts = gson.fromJson(obj.get("posts"), Posts[].class);
+    }
 
-		for (User u : users) {
-			String UserIDString = Integer.toString(u.getUserID());
-			userHashMap.put(UserIDString, u);
-		}
+    public static Database getDatabase() {
+        if (!database.isLoaded) database.connect();
+        return database;
+    }
 
-		for (Posts p : posts) {
-			String PostIDString = Integer.toString(p.getPostID());
-			postsHashMap.put(PostIDString, p);
-		}
-	}
+    public User[] getAllUsers() { return this.users; }
 
-	// Note for Leslie: The following functions need to be fully implemented.
-	// They should call upon the earlier user and post HashMaps to search through
-	// for the specified ID
 
-	private static Posts errorPost = new Posts(-1, -1, "Error");
-	private static User errorUser = new User(-1, "Error");
-	static Collection<Posts> postsCollection = postsHashMap.values();
-	static ArrayList<Posts> postsArrayList = new ArrayList<>(postsCollection);
-	static Collection<User> userCollection = userHashMap.values();
-	static ArrayList<User> userArrayList = new ArrayList<>(userCollection);
 
-	public User[] returnAllUsers() {
-		return users;
-	}
+    void connect() {
+        isLoaded = true;
+        Gson gson = new Gson();
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader("src/data.json"));
+            JsonParser jsonParser = new JsonParser();
+            JsonObject obj = jsonParser.parse(br).getAsJsonObject();
 
-	/*
-	 * Turns out, this getter was unnecessary. public User getUserbyUsername(String
-	 * username){ User user = errorUser; if(userHashMap.containsKey(username)) {
-	 * user = userHashMap.get(username); } return user; }
-	 */
+            users = gson.fromJson(obj.get("users"), User[].class);
+            posts = gson.fromJson(obj.get("posts"), Posts[].class);// added this
+            //.loadAll();
 
-	public User getUserbyID(int UserID) {
-		User user = errorUser;
-		if (userHashMap.containsKey(Integer.toString(UserID))) {
-			user = userHashMap.get(Integer.toString(UserID));
-		}
-		return user;
-	}
+            //Put database objects into hashmaps
+            for (User u : users) {
+                String UserIDString = Integer.toString(u.getUserID());
+                userHashMap.put(UserIDString, u);
+            }
 
-	public Posts getPostbyID(int postID) {
-		Posts post = errorPost;
-		if (postsHashMap.containsKey(Integer.toString(postID))) {
-			post = postsHashMap.get(Integer.toString(postID));
-		}
-		return post;
-	}
+            for (Posts p : posts) {
+                String PostIDString = Integer.toString(p.getPostID());
+                postsHashMap.put(PostIDString, p);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public Posts getPostbyLength(int maxLength) {
-		Posts post = errorPost;
-		for (Posts testPost : postsArrayList) {
-			char[] postContentArray = (testPost.getPostContent()).toCharArray();
-			if (postContentArray.length < maxLength) {
-				post = testPost;
-				break;
-			}
-		}
-		return post;
-	}
+    //Methods to get users and posts
+
+    Posts errorPost = new Posts(-1, -1, "Error");
+    private static User errorUser = new User(-1, "Error");
+    static Collection<Posts> postsCollection = postsHashMap.values();
+    static ArrayList<Posts> postsArrayList = new ArrayList<>(postsCollection);
+    static Collection<User> userCollection = userHashMap.values();
+    static ArrayList<User> userArrayList = new ArrayList<>(userCollection);
+    public User[] returnAllUsers() {
+        return users;
+    }
+
+    /*
+     * Turns out, this getter was unnecessary. public User getUserbyUsername(String
+     * username){ User user = errorUser; if(userHashMap.containsKey(username)) {
+     * user = userHashMap.get(username); } return user; }
+     */
+
+    public User[] getUserbyID(int UserID) {
+        User user = errorUser;
+        if (userHashMap.containsKey(Integer.toString(UserID))) {
+            user = userHashMap.get(Integer.toString(UserID));
+        }
+        User[] us = {user};
+        return us;
+    }
+
+    public Posts[] getPostbyID(int postID) {
+        Posts post = errorPost;
+        if (postsHashMap.containsKey(Integer.toString(postID))) {
+            post = postsHashMap.get(Integer.toString(postID));
+        }
+        Posts[] po = {post};
+        return po;
+    }
+
+    public Posts[] getPostbyLength(int postID, int maxLength) {
+        Posts post = errorPost;
+
+        if (postsHashMap.containsKey(Integer.toString(postID))) {
+            post = postsHashMap.get(Integer.toString(postID));
+        }
+        Posts[] po = {post};
+        char[] postContentArray = (post.getPostContent()).toCharArray();
+        if (postContentArray.length <= maxLength) {
+            return po;
+        }
+        else {
+            post = errorPost;
+            Posts[] postError = {post};
+            return postError;
+        }
+
+    }
+    public int checkForError(int postID, int maxLength){
+        Posts post = errorPost;
+
+        if (postsHashMap.containsKey(Integer.toString(postID))) {
+            post = postsHashMap.get(Integer.toString(postID));
+        }
+        char[] postContentArray = (post.getPostContent()).toCharArray();
+        if (postContentArray.length <= maxLength) {
+            check = false;
+        }
+        else {
+            check = true;
+        }
+        if (check == true){return 1;}
+        else return 0;
+    }
+
 
 }

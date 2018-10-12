@@ -10,7 +10,7 @@ public class PostProcessor extends Processor {
 
 	public PostProcessor() {
 		try {
-			Database db = new Database();
+			db = new Database();
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

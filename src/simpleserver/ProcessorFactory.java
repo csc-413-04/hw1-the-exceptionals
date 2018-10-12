@@ -11,7 +11,7 @@ public class ProcessorFactory {
 			return new UserProcessor();
 		case "/users":
 			return new UserProcessor();
-		case "/posts":
+		case "/post?postid":
 			return new PostProcessor();
 		}
 		return null;

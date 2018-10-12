@@ -10,8 +10,10 @@ public class PostResponse extends Response {
 	Posts post;
 	int postLength;
 
-	public PostResponse(Database db, String[] ep) { // if length = -1, we assume that length parameters were not
-													// specified
+	public PostResponse(Database db, String[] ep) { 
+		if(ep.length == 2) {
+			this.post = db.getPostbyID(Integer.parseInt(ep[1]));
+		}
 		/*
 		 * if(id > 0 && postList != null && length >= 0) { this.postLength = length;
 		 * this.id = String.valueOf(id); this.posts = postList; this.entries =
@@ -31,12 +33,7 @@ public class PostResponse extends Response {
 
 	public String response() {
 		Gson gson = new Gson();
-		if (this.success && this.postLength == -1 && Integer.parseInt(this.id) > 0) {
-			String json = gson.toJson(posts.get(Integer.parseInt(this.id)));
-		} else if (this.success && this.postLength > 0 && Integer.parseInt(this.id) > 0) {
-			String json = gson.toJson(posts);
-		}
-		return id;
+		return gson.toJson(post);
 
 	}
 }

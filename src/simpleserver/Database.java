@@ -94,15 +94,12 @@ public class Database {
 		return post;
 	}
 
-	public Posts getPostbyLength(int maxLength) {
+	public Posts getPostbyLength(int postID, int maxLength) {
 		Posts post = errorPost;
-		for (Posts testPost : postsArrayList) {
-			char[] postContentArray = (testPost.getPostContent()).toCharArray();
-			if (postContentArray.length < maxLength) {
-				post = testPost;
-				break;
-			}
+		if (postsHashMap.containsKey(Integer.toString(postID))) {
+			post = postsHashMap.get(Integer.toString(postID));
 		}
+		post.setPostLength(maxLength);
 		return post;
 	}
 

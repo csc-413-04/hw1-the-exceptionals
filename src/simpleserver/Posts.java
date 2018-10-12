@@ -3,13 +3,13 @@ package simpleserver;
 public class Posts {
 	private int userid;
 	private int postid;
-	private String postContent;
+	private String data;
 
 	// Constructor for the Post objects
-	protected Posts(int userid, int postid, String postContent) {
+	protected Posts(int userid, int postid, String data) {
 		this.userid = userid;
 		this.postid = postid;
-		this.postContent = postContent;
+		this.data = data;
 	}
 
 	public int getUserId() {
@@ -21,6 +21,10 @@ public class Posts {
 	}
 
 	public String getPostContent() {
-		return postContent;
+		return data;
+	}
+	
+	public void setPostLength(int l) {
+		data = data.substring(0, Math.min(data.length(), l));
 	}
 }

@@ -18,7 +18,7 @@ public class Response {
 	}
 
 	public void setData(iData[] data) {
-			this.entries = data.length;
-			this.data = data;
+		this.entries = data.length;
+		this.data = data;
 	}
 }

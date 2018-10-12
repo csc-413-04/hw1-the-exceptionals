@@ -14,13 +14,13 @@ public class ProcessorFactory {
 		String query;
 		Processor processor = null;
 		boolean check = false;
-        char [] c = url.toCharArray();
-        for (char i : c){
-          if (i == '?') {
-            check = true;
-          }
-        }
-        if(check==true) {
+		char [] c = url.toCharArray();
+		for (char i : c){
+			if (i == '?') {
+				check = true;
+			}
+		}
+		if(check==true) {
 			String[] requestParts = url.split("\\?");
 			endpoint = requestParts[0];
 		}

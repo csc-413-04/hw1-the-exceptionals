@@ -1,41 +1,37 @@
 package simpleserver;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-public class UserProcessor extends Processor {
 
-	private int entries = 0;
-	private User[] userList;
+public class UserProcessor implements Processor{
 
-	public UserProcessor() {
-		try {
-			db = new Database();
-		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public String process(String[] ep) {
-		UserResponse ur = new UserResponse(db, ep);
-		return ur.response();
-	}
-
-	/*
-	 * @Override public String process(User user) {
-	 * 
-	 * if(user == null) { return "Error: Null user"; } this.type = "User"; this.id =
-	 * String.valueOf(user.getUserID());
-	 * System.out.println("User id: "+user.getUserID()+" Username: "+user.
-	 * getUsername()); return
-	 * "User id: "+user.getUserID()+" Username: "+user.getUsername(); }
-	 */
-
-	/*
-	 * public String[] processAll(JsonArray userArray) { String[] stringArray = new
-	 * String[userArray.size()]; for(int i = 0; i < userArray.size(); i++) {
-	 * stringArray[i] = userArray.get(i).getAsString(); } return stringArray; }
-	 */
+    @Override
+    public String process(String endpoint) {
+        // All logic goes in here
+        //DO code for displaying all users, or displaying user by id.
+        if (endpoint.trim().equals("/user")) {
+            Response response = new Response();
+            Database db = Database.getDatabase();
+            response.setData(db.getAllUsers());
+            response.setStatus("OK");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            return gson.toJson(response);
+        }
+        else {
+            String[] request = endpoint.split("\\?");
+            String userId = request[1];
+            userId.trim();
+            Response response = new Response();
+            String [] userIdString = userId.split("=");
+            String userIdString2 = userIdString[1];
+            System.out.println(userIdString2);
+            int userIdInt = Integer.parseInt(userIdString2);
+            Database db = Database.getDatabase();
+            response.setData(db.getUserbyID(userIdInt));
+            response.setStatus("OK");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            return gson.toJson(response);
+        }
+    }
 }

@@ -1,11 +1,24 @@
 package simpleserver;
 
-public abstract class Response {
-	boolean success; // status
-	int entries;
-	String id;
+import com.google.gson.annotations.Expose;
 
-	// Constructor for creating new responses
-	public abstract String response();
+public class Response {
+	iData[] data;
+	public String status;
+	public int entries;
 
+
+
+	void doStuff(iData datatype) {
+
+	}
+
+	public void setStatus(String status){
+		this.status = status;
+	}
+
+	public void setData(iData[] data) {
+			this.entries = data.length;
+			this.data = data;
+	}
 }

@@ -1,30 +1,37 @@
 package simpleserver;
 
-public class Posts {
-	private int userid;
-	private int postid;
-	private String data;
+public class Posts extends iData{
+    private int userid;
+    private int postid;
+    private String data;
 
-	// Constructor for the Post objects
-	protected Posts(int userid, int postid, String data) {
-		this.userid = userid;
-		this.postid = postid;
-		this.data = data;
-	}
 
-	public int getUserId() {
-		return userid;
-	}
+    // Constructor for the Post objects
+    protected Posts(int userid, int postid, String data) {
+        this.userid = userid;
+        this.postid = postid;
+        this.data = data;
+    }
 
-	public int getPostID() {
-		return postid;
-	}
+    public int getUserId() {
+        return userid;
+    }
 
-	public String getPostContent() {
-		return data;
-	}
-	
-	public void setPostLength(int l) {
-		data = data.substring(0, Math.min(data.length(), l));
-	}
+    public int getPostID() {
+        return postid;
+    }
+    public String getPostContent(){
+        return data;
+    }
+//    @Override
+//    public boolean equals(Posts other) {
+//        if (!(other instanceof Posts)) {
+//            return false;
+//        }
+//
+//        Posts that = (Posts) other;
+//
+//        // Custom equality check here.
+//        return this.data.equals(that.data);
+//    }
 }
